@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { IpcService } from './core/services/ipc.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'files-scanner';
+
+  constructor(private ipcService: IpcService) {
+    
+  }
+
+  readDownloads() {
+    this.ipcService.send('read-downloads');
+  }
 }

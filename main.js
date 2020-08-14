@@ -1,39 +1,35 @@
-const { app, BrowserWindow } = require('electron')
-const url = require("url");
-const path = require("path");
+const { createWindow } = require('./src/app/electron/create-window.js');
+const { app, ipcMain } = require('electron');
+const fs = require('fs');
 
 let mainWindow;
 
-function createWindow() {
-    mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
-        webPreferences: {
-            nodeIntegration: true
-        }
-    })
-
-    mainWindow.loadURL(
-        url.format({
-            pathname: path.join(__dirname, `/dist/index.html`),
-            protocol: "file:",
-            slashes: true
-        })
-    );
-    // Open the DevTools.
-    mainWindow.webContents.openDevTools()
-
-    mainWindow.on('closed', function () {
-        mainWindow = null
-    })
-}
-
-app.on('ready', createWindow)
+app.on('ready', createWindow);
 
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit()
-})
+});
 
 app.on('activate', function () {
     if (mainWindow === null) createWindow()
-})
+});
+
+ipcMain.on('read-downloads', (event, arg) => {
+    const directoryPath = 'C:/Users/Tiago/Downloads/';
+
+    fs.readdir(directoryPath, function (err, files) {
+        if (err) {
+            return console.log('Unable to scan directory: ' + err);
+        };
+
+        files.forEach(function (file) {
+            fs.stat(directoryPath + file, function (err, file) {
+                if (err) {
+                    return console.log('Unable to scan directory: ' + err);
+                };
+                
+                console.log(file)
+            })
+        });
+    });
+});

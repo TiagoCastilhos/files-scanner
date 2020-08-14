@@ -31,7 +31,7 @@
     "@angular/compiler-cli": "~10.0.9",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "^12.11.1",
+    "@types/node": "^12.12.54",
     "codelyzer": "^6.0.0",
     "electron": "^9.2.0",
     "jasmine-core": "~3.5.0",
